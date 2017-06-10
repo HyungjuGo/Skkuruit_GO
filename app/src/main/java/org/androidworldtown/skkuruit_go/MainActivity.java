@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,11 +22,16 @@ public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
+    ProgressBar pblogin;
+    EditText NickInput;
+    String stNick;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        pblogin = (ProgressBar)findViewById(R.id.pblogin);
+        NickInput = (EditText)findViewById(R.id.NickInput);
+        stNick = NickInput.getText().toString();
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -56,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 UserLogin();
                 Intent in = new Intent(MainActivity.this, AfterLogin.class);
                 startActivity(in);
@@ -78,11 +85,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void UserLogin(){
+        pblogin.setVisibility(View.VISIBLE);
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInAnonymously:onComplete:" + task.isSuccessful());
+                        pblogin.setVisibility(View.GONE);
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the

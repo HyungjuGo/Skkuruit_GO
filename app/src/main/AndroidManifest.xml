@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AfterLogin"></activity>
+        <activity android:name=".AfterLogin" />
+        <activity android:name=".SpecificPage"></activity>
     </application>
 
 </manifest>
