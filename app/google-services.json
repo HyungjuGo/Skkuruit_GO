@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "37839531511",
+    "firebase_url": "https://skkuruitgo.firebaseio.com",
+    "project_id": "skkuruitgo",
+    "storage_bucket": "skkuruitgo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37839531511:android:7b49baa89489190c",
+        "android_client_info": {
+          "package_name": "org.androidworldtown.skkuruit_go"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "37839531511-udlg7a2li2v4357imguiauvsc49a9g4q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.androidworldtown.skkuruit_go",
+            "certificate_hash": "d1e047f4596f5775b922cfa5ee2d991e0ead90c7"
+          }
+        },
+        {
+          "client_id": "37839531511-ccq0aigs57qtfhe9rnnkor8t3fvm4gc3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvm2Q36P-E6dGzKCSZOd6DpDfUIqYJmO8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "37839531511-ccq0aigs57qtfhe9rnnkor8t3fvm4gc3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
