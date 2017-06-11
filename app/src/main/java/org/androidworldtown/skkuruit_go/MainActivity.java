@@ -16,9 +16,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity extends AppCompatActivity {
+    FirebaseDatabase database;
     String TAG = "MainActivity";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -29,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        database = FirebaseDatabase.getInstance();
         pblogin = (ProgressBar)findViewById(R.id.pblogin);
         NickInput = (EditText)findViewById(R.id.NickInput);
-        stNick = NickInput.getText().toString();
+
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -53,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         IDCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(MainActivity.this, "미구현기능입니다.", Toast.LENGTH_SHORT).show();
+                stNick = NickInput.getText().toString();
+                Toast.makeText(MainActivity.this,stNick+ "미구현기능입니다.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -62,11 +66,20 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                stNick = NickInput.getText().toString();
+                if(stNick.equals("") || stNick.isEmpty()){
+                    Toast.makeText(MainActivity.this, "내용을 입력해주세요", Toast.LENGTH_SHORT).show();
+                }
+                else {
 
-                UserLogin();
-                Intent in = new Intent(MainActivity.this, AfterLogin.class);
-                startActivity(in);
+                    DatabaseReference myRef = database.getReference("uid");
 
+                    myRef.setValue(stNick);
+
+                    UserLogin();
+                    Intent in = new Intent(MainActivity.this, AfterLogin.class);
+                    startActivity(in);
+                }
             }
         });
     }
