@@ -17,8 +17,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".AfterLogin" />
+        <activity android:name=".SplashActivity" />
+        <activity android:name=".SelectPage" />
         <activity android:name=".SpecificPage" />
-        <activity android:name=".SplashActivity"></activity>
+        <activity android:name=".MyPage" />
+        <activity android:name=".Allim" />
+        <activity android:name=".MorePage"></activity>
     </application>
 
 </manifest>

@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     ProgressBar pblogin;
     EditText NickInput;
-    String stNick;
+    static String stNick;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -4,55 +4,47 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Map;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import static android.R.attr.value;
+import static com.google.firebase.database.FirebaseDatabase.*;
+import static org.androidworldtown.skkuruit_go.MainActivity.stNick;
+import static org.androidworldtown.skkuruit_go.R.id.mypage;
 
-public class SpecificPage extends AppCompatActivity {
-    TextView tv1, tv2, tv3, tv4, tv5, tv6;
+public class MyPage extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_specific_page);
-        Intent spe_intent = getIntent();
-        String title = spe_intent.getStringExtra("title");
-        String content = spe_intent.getStringExtra("content");
-        String industry = spe_intent.getStringExtra("industry");
-        String recommend = spe_intent.getStringExtra("recommend");
-        String location = spe_intent.getStringExtra("location");
-        String required = spe_intent.getStringExtra("required");
-        String company = spe_intent.getStringExtra("company");
+        setContentView(R.layout.activity_my_page);
+        Button mycompany = (Button) findViewById(R.id.mycompany);
+        mycompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in1 = new Intent(MyPage.this, SelectPage.class);
+                startActivity(in1);
+            }
+    });
+        Button bell = (Button) findViewById(R.id.bell);
+        bell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in2 = new Intent(MyPage.this, Allim.class);
+                startActivity(in2);
+            }
+        });
 
-        //회사명
-        tv1 = (TextView) findViewById(R.id.textView9);
-        tv1.setText(company);
-        //산업군
-        tv2 = (TextView) findViewById(R.id.textView10);
-        tv2.setText(industry);
-        //장소 및 일자
-        tv3 = (TextView) findViewById(R.id.textView6);
-        tv3.setText(location);
-        //내용
-        tv4 = (TextView) findViewById(R.id.textView11);
-        tv4.setText(content);
-        //제목
-        tv5 = (TextView) findViewById(R.id.title_spe);
-        tv5.setText(title);
 
-        //필수요건
-        tv6 = (TextView) findViewById(R.id.required);
-        tv6.setText(required);
-
-    }
+}
     public boolean onCreateOptionsMenu(Menu menu) {
         ActionBar actionBar = getSupportActionBar();
 
@@ -71,13 +63,7 @@ public class SpecificPage extends AppCompatActivity {
         Toolbar parent = (Toolbar) actionbar.getParent();
         parent.setContentInsetsAbsolute(0, 0);
         TextView mypage = (TextView) findViewById(R.id.mypage);
-        mypage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent3 = new Intent(getBaseContext(), MyPage.class);
-                startActivity(intent3);
-            }
-        });
+        mypage.setText(stNick+"님의 페이지");
         TextView title = (TextView) findViewById(R.id.title);
         title.setOnClickListener(new View.OnClickListener() {
             @Override
