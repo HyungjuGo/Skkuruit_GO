@@ -1,6 +1,7 @@
 package org.androidworldtown.skkuruit_go;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -16,12 +17,33 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import static android.R.id.edit;
 
 
 public class MainActivity extends AppCompatActivity {
+    private DatabaseReference mDatabase;
     FirebaseDatabase database;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==8888){
+            SharedPreferences pref = getSharedPreferences("Nick",MODE_PRIVATE);
+            String nick_temp = pref.getString("nickname",null);
+            if(nick_temp!=null){
+                UserLogin();
+                Intent in = new Intent(MainActivity.this,AfterLogin.class);
+                startActivity(in);
+            }
+        }
+    }
+
     String TAG = "MainActivity";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -29,9 +51,11 @@ public class MainActivity extends AppCompatActivity {
     EditText NickInput;
     String stNick;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent temp = new Intent(this,SplashActivity.class);
+        startActivityForResult(temp,8888);
         database = FirebaseDatabase.getInstance();
         pblogin = (ProgressBar)findViewById(R.id.pblogin);
         NickInput = (EditText)findViewById(R.id.NickInput);
@@ -58,7 +82,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 stNick = NickInput.getText().toString();
-                Toast.makeText(MainActivity.this,stNick+ "미구현기능입니다.", Toast.LENGTH_SHORT).show();
+                mDatabase=FirebaseDatabase.getInstance().getReference("uid");
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // This method is called once with the initial value and again
+                        // whenever data at this location is updated.
+                        String value = dataSnapshot.getValue(String.class);
+                        Log.d(TAG, "Value is: " + value);
+                        if(value.equals(stNick)) {
+                            Toast.makeText(MainActivity.this, "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else{
+                            Toast.makeText(MainActivity.this,stNick+ "사용가능합니다!", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w(TAG, "Failed to read value.", error.toException());
+                    }
+                });
+
             }
         });
 
@@ -71,6 +120,11 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "내용을 입력해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    SharedPreferences pref = getSharedPreferences("Nick",MODE_PRIVATE);
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.putString("nickname",stNick);
+                    edit.apply();
+                    edit.commit();
 
                     DatabaseReference myRef = database.getReference("uid");
 
@@ -81,7 +135,12 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(in);
                 }
             }
-        });
+});
+
+
+
+
+
     }
     @Override
     public void onStart() {

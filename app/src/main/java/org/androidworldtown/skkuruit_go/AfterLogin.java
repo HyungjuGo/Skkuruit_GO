@@ -1,5 +1,6 @@
 package org.androidworldtown.skkuruit_go;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,19 +8,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.view.View;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AfterLogin extends AppCompatActivity {
-    static final String[] LIST_MENU = {"2017년 삼성 전자 하계인턴", "2017년 현대차 하계인턴", "2017년 아모레 하계인턴","2017년 LG 하계인턴"} ;
+    String[] LIST_MENU;
+    FirebaseDatabase database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_login);
-
-
-
+        database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("회사");
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, LIST_MENU) ;
 
@@ -42,11 +51,13 @@ public class AfterLogin extends AppCompatActivity {
         View actionbar = inflater.inflate(R.layout.home, null);
 
         actionBar.setCustomView(actionbar);
-
-        //액션바 양쪽 공백 없애기
         Toolbar parent = (Toolbar)actionbar.getParent();
         parent.setContentInsetsAbsolute(0,0);
 
+        //액션바 양쪽 공백 없애기
+
+
         return true;
     }
+
 }
